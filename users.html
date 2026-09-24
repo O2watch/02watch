@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>O2WATCH — ผู้ใช้งาน</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --bg:#eef9f3;
+    --panel:#ffffff;
+    --panel-2:#e3f6ea;
+    --line:#cdeadb;
+    --teal:#18b384;
+    --amber:#e8964f;
+    --red:#e0555a;
+    --ink:#0f3b2c;
+    --ink-dim:#5f8b78;
+    font-family:'Noto Sans Thai','Kanit',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    background:
+      radial-gradient(1200px 600px at 85% -10%, #d6f3e4 0%, transparent 60%),
+      var(--bg);
+    color:var(--ink);
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+    -webkit-font-smoothing:antialiased;
+  }
+  .kanit{font-family:'Kanit',sans-serif;}
+  a{color:inherit;text-decoration:none;}
+
+  .shell{display:grid;grid-template-columns:240px 1fr;min-height:100vh;}
+  @media (max-width:860px){.shell{grid-template-columns:1fr;}}
+
+  /* Sidebar */
+  .side{
+    background:#0f3b2c;
+    border-right:1px solid var(--line);
+    padding:28px 18px;
+    display:flex;flex-direction:column;gap:26px;
+    color:#eafbf3;
+  }
+  @media (max-width:860px){.side{display:none;}}
+  .brand{display:flex;align-items:center;gap:10px;padding:0 6px;}
+  .brand .mark{
+    width:34px;height:34px;border-radius:9px;
+    background:conic-gradient(from 210deg, var(--teal), #0e7a5e 65%, var(--teal));
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Kanit';font-weight:700;color:#04140f;font-size:15px;
+  }
+  .brand .name{font-family:'Kanit';font-weight:700;font-size:18px;letter-spacing:.2px;}
+  .brand .name small{display:block;font-family:'Noto Sans Thai';font-weight:400;font-size:11px;color:var(--ink-dim);}
+
+  nav{display:flex;flex-direction:column;gap:2px;margin-top:8px;}
+  nav a{
+    display:flex;align-items:center;gap:12px;
+    padding:10px 12px;border-radius:8px;
+    color:var(--ink-dim);font-size:14.5px;
+    border-left:2px solid transparent;
+  }
+  nav a .dot{width:6px;height:6px;border-radius:50%;background:var(--ink-dim);flex:none;}
+  nav a.active{background:var(--panel-2);color:var(--ink);border-left:2px solid var(--teal);}
+  nav a.active .dot{background:var(--teal);box-shadow:0 0 8px var(--teal);}
+  nav a:hover{color:var(--ink);}
+
+  .side-foot{margin-top:auto;padding:12px 6px;border-top:1px solid #1e5a44;font-size:12px;color:#8fcbb0;line-height:1.6;}
+
+  .side .name{color:#eafbf3;}
+  .side .name small{color:#8fcbb0;}
+  .side nav a{color:#a8d9c3;}
+  .side nav a .dot{background:#a8d9c3;}
+  .side nav a.active{background:#164732;color:#eafbf3;border-left:2px solid var(--teal);}
+  .side nav a.active .dot{background:var(--teal);box-shadow:0 0 8px var(--teal);}
+  .side nav a:hover{color:#eafbf3;}
+
+  /* Main */
+  main{padding:26px 30px 60px;}
+  @media (max-width:860px){main{padding:18px 16px 40px;}}
+
+  .topline{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    flex-wrap:wrap;gap:14px;margin-bottom:22px;
+  }
+  .topline h1{font-family:'Kanit';font-weight:600;font-size:24px;}
+  .topline p{color:var(--ink-dim);font-size:13.5px;margin-top:4px;}
+  .site-pill{
+    background:var(--panel);border:1px solid var(--line);
+    padding:8px 14px;border-radius:100px;font-size:13px;color:var(--ink-dim);
+  }
+  .site-pill b{color:var(--ink);font-weight:500;}
+
+  /* Status strip */
+  .strip{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;
+  }
+  @media (max-width:700px){.strip{grid-template-columns:1fr 1fr;}}
+  .stat{
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    padding:16px 18px;
+  }
+  .stat .label{font-size:12px;color:var(--ink-dim);}
+  .stat .value{font-family:'Kanit';font-size:22px;font-weight:600;margin-top:6px;display:flex;align-items:baseline;gap:6px;}
+  .stat .value .unit{font-size:12px;color:var(--ink-dim);font-weight:400;}
+  .badge{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;padding:3px 9px;border-radius:100px;margin-top:8px;}
+  .badge.ok{background:rgba(46,230,184,.12);color:var(--teal);}
+  .badge.warn{background:rgba(255,180,84,.14);color:var(--amber);}
+  .badge.off{background:rgba(255,255,255,.06);color:var(--ink-dim);}
+
+  /* Sensor cards */
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:22px;}
+  @media (max-width:980px){.grid3{grid-template-columns:1fr;}}
+  .sensor{
+    background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:20px;position:relative;overflow:hidden;
+  }
+  .sensor.offline{opacity:.55;}
+  .sensor .head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
+  .sensor .head h3{font-family:'Kanit';font-size:15.5px;font-weight:600;}
+  .sensor .head .loc{font-size:12px;color:var(--ink-dim);margin-top:2px;}
+  .sensor .status{font-size:11px;padding:3px 8px;border-radius:100px;}
+  .sensor .status.on{background:rgba(46,230,184,.14);color:var(--teal);}
+  .sensor .status.off{background:rgba(255,255,255,.07);color:var(--ink-dim);}
+
+  .dial-row{display:flex;align-items:center;gap:18px;}
+  .dial{position:relative;width:112px;height:112px;flex:none;}
+  .dial svg{width:100%;height:100%;transform:rotate(-90deg);}
+  .dial .bg{fill:none;stroke:#d3ecdf;stroke-width:10;}
+  .dial .fg{fill:none;stroke:var(--teal);stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset .4s;}
+  .dial .num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .dial .num b{font-family:'Kanit';font-size:22px;}
+  .dial .num span{font-size:10px;color:var(--ink-dim);}
+
+  .metrics{display:flex;flex-direction:column;gap:8px;flex:1;}
+  .metrics .m{display:flex;justify-content:space-between;font-size:13px;border-bottom:1px dashed var(--line);padding-bottom:6px;}
+  .metrics .m:last-child{border:none;padding:0;}
+  .metrics .m .k{color:var(--ink-dim);}
+  .metrics .m .v{font-family:'Kanit';}
+
+  /* Two column: chart + alerts */
+  .grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-bottom:22px;}
+  @media (max-width:980px){.grid2{grid-template-columns:1fr;}}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;}
+  .panel h3{font-family:'Kanit';font-size:15.5px;font-weight:600;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;}
+  .panel h3 a{font-size:12px;color:var(--teal);font-weight:400;font-family:'Noto Sans Thai';}
+
+  .chart-legend{display:flex;gap:14px;margin-top:10px;font-size:12px;color:var(--ink-dim);}
+  .chart-legend span{display:flex;align-items:center;gap:6px;}
+  .chart-legend i{width:8px;height:8px;border-radius:50%;display:inline-block;}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  th{text-align:left;color:var(--ink-dim);font-weight:500;padding-bottom:8px;border-bottom:1px solid var(--line);}
+  td{padding:9px 0;border-bottom:1px solid #e3f6ea;}
+  tr:last-child td{border-bottom:none;}
+  .ev{display:inline-flex;align-items:center;gap:6px;}
+  .ev i{width:6px;height:6px;border-radius:50%;}
+
+  /* Thresholds */
+  .thresh{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  @media (max-width:860px){.thresh{grid-template-columns:1fr;}}
+  .th-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;}
+  .th-card h4{font-family:'Kanit';font-size:14px;margin-bottom:12px;}
+  .th-row{display:flex;justify-content:space-between;font-size:12.5px;padding:7px 0;border-bottom:1px solid #e3f6ea;}
+  .th-row:last-child{border:none;}
+  .th-tag{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:7px;}
+
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <div class="brand">
+      <div class="mark">O₂</div>
+      <div class="name">O2WATCH<small>เฝ้าระวังออกซิเจนอัจฉริยะ</small></div>
+    </div>
+    <nav>
+      <a href="index.html"><span class="dot"></span> ภาพรวม</a>
+      <a href="realtime.html"><span class="dot"></span> เซ็นเซอร์แบบเรียลไทม์</a>
+      <a href="history.html"><span class="dot"></span> ประวัติย้อนหลัง</a>
+      <a href="alerts.html"><span class="dot"></span> การแจ้งเตือน</a>
+      <a href="reports.html"><span class="dot"></span> รายงาน</a>
+      <a href="settings.html"><span class="dot"></span> เกณฑ์ & ตั้งค่า</a>
+      <a class="active" href="users.html"><span class="dot"></span> ผู้ใช้งาน</a>
+    </nav>
+    <div class="side-foot">
+      โรงพยาบาลมะขาม<br>
+      อัปเดตล่าสุด 23:41:12 · เชื่อมต่อ MQTT<br><a href="#" id="logoutLink" style="color:#a8d9c3;text-decoration:underline;">ออกจากระบบ</a>
+    </div>
+  </aside>
+
+  <main>
+    <div class="topline">
+      <div>
+        <h1 class="kanit">ผู้ใช้งาน</h1>
+        <p>จัดการผู้ใช้ กำหนดสิทธิ์ และรีเซ็ตรหัสผ่าน</p>
+      </div>
+      <div class="site-pill">ไซต์งาน: <b>อาคารเวชปฏิบัติ 2</b></div>
+    </div>
+
+    <div class="panel">
+      <h3>รายชื่อผู้ใช้</h3>
+      <table>
+        <tr><th>ชื่อ-นามสกุล</th><th>ตำแหน่ง</th><th>อีเมล</th><th>สิทธิ์</th><th>สถานะ</th></tr>
+        <tr><td>ผู้ดูแล ระบบ</td><td>ผู้ดูแลระบบ</td><td>nanun@admin.com</td><td>Admin</td><td><span class="badge ok">ใช้งาน</span></td></tr>
+      </table>
+    </div>
+  </main>
+</div>
+  <script>
+    // Demo only: ตรวจสอบสถานะเข้าสู่ระบบแบบง่าย (client-side, ยังไม่ปลอดภัยสำหรับใช้งานจริง)
+    try {
+      if (!localStorage.getItem('o2watch_demo_user')) {
+        window.location.href = 'login.html';
+      }
+    } catch(e) {}
+  </script>
+  <script>
+    var lo = document.getElementById('logoutLink');
+    if(lo){ lo.addEventListener('click', function(e){
+      e.preventDefault();
+      try { localStorage.removeItem('o2watch_demo_user'); } catch(e){}
+      window.location.href = 'login.html';
+    }); }
+  </script>
+</body>
+</html>
